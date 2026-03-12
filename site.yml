@@ -1,0 +1,18 @@
+---
+- name: Hansung RAG Agent 모니터링 환경 구축
+  hosts: all
+  become: yes
+  
+  roles:
+    - cloudwatch
+
+  handlers:
+    - name: restart cloudwatch agent
+      service:
+        name: amazon-cloudwatch-agent
+        state: restarted
+
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded

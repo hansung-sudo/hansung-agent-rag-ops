@@ -1,0 +1,30 @@
+---
+- name: Nginx 설치
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Nginx 서비스 시작 및 활성화
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: 기본 Nginx 설정 파일 삭제
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: RAG Ops Nginx 설정 파일 배포
+  template:
+    src: nginx_rag.conf.j2
+    dest: /etc/nginx/sites-available/hansung-rag.conf
+  notify: reload nginx
+
+- name: Nginx 설정 심볼릭 링크 생성
+  file:
+    src: /etc/nginx/sites-available/hansung-rag.conf
+    dest: /etc/nginx/sites-enabled/hansung-rag.conf
+    state: link
+  notify: reload nginx

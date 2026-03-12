@@ -1,0 +1,10 @@
+---
+# 공통 변수 설정
+docker_version: "latest"
+docker_compose_version: "2.21.0"
+
+log_path: "/var/log/hansung-rag"
+app_name: "hansung-agent-rag"
+
+# CloudWatch Agent 설정 관련
+cw_agent_config_path: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json"
