@@ -4,4 +4,4 @@
 .vault_pass
 .cache/
 .DS_Store
-.inventory/
+inventory/
