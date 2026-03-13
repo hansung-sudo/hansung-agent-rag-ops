@@ -39,7 +39,7 @@ hansung-agent-rag-ops/
   - `cw_agent_config_path`: CloudWatch Agent 설정 파일 경로
   - `cw_dashboard_name`, `cw_dashboard_region`: Dashboard 생성/갱신에 사용
 
-### 실행 방법
+### 실행 방법 (현재 비활성화 IAM 접근불가)
 
 스테이징 기준:
 
