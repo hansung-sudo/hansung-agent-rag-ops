@@ -8,3 +8,6 @@ app_name: "hansung-agent-rag"
 
 # CloudWatch Agent 설정 관련
 cw_agent_config_path: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json"
+
+# CloudWatch Dashboard 설정 관련
+cw_dashboard_name: "amazon-cloudwatch-llm-observability"

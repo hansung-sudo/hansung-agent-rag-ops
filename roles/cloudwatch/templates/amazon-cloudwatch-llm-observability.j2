@@ -1,0 +1,289 @@
+{
+    "widgets": [
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 8,
+            "width": 7,
+            "height": 7,
+            "properties": {
+                "metrics": [
+                    [ "AWS/Bedrock", "InputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "label": "titan", "region": "ap-northeast-2" } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "label": "sonnet 3.5", "region": "ap-northeast-2" } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "label": "opus 4.5", "region": "ap-northeast-2" } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "label": "sonnet 4.5", "region": "ap-northeast-2" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": true,
+                "region": "ap-northeast-2",
+                "period": 60,
+                "title": "## inputTokenCount by each Models (Sum)",
+                "stat": "Sum"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 1,
+            "width": 7,
+            "height": 7,
+            "properties": {
+                "metrics": [
+                    [ "AWS/Bedrock", "InputTokenCount", { "region": "ap-northeast-2" } ],
+                    [ ".", "OutputTokenCount", { "region": "ap-northeast-2" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": true,
+                "region": "ap-northeast-2",
+                "title": "## Overall InputTokenCount, OutputTokenCount (Max)",
+                "period": 60,
+                "stat": "Maximum"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 11,
+            "y": 1,
+            "width": 6,
+            "height": 10,
+            "properties": {
+                "metrics": [
+                    [ "AWS/Bedrock", "InvocationLatency", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "region": "ap-northeast-2", "label": "titan" } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "region": "ap-northeast-2", "label": "sonnet 3.5" } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "region": "ap-northeast-2", "label": "opus 4.5" } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "region": "ap-northeast-2", "label": "sonnet 4.5" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-northeast-2",
+                "title": "## InvocationLatency by each models (P99)",
+                "period": 300,
+                "stat": "p99"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 7,
+            "y": 1,
+            "width": 3,
+            "height": 3,
+            "properties": {
+                "metrics": [
+                    [ { "expression": "((in_s35/1e6)*3) + ((out_s35/1e6)*15)", "label": "sonnet 3.5 cost ($)", "id": "e1", "period": 60, "stat": "Sum", "region": "ap-northeast-2", "color": "#ff7f0e" } ],
+                    [ "AWS/Bedrock", "OutputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "out_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "out_s45", "region": "ap-northeast-2", "visible": false } ],
+                    [ ".", "InputTokenCount", ".", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "id": "in_titan", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "in_s45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "in_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "in_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ ".", "OutputTokenCount", ".", ".", { "id": "out_o45", "region": "ap-northeast-2", "visible": false } ]
+                ],
+                "sparkline": false,
+                "view": "singleValue",
+                "region": "ap-northeast-2",
+                "stat": "Sum",
+                "period": 60,
+                "stacked": true,
+                "setPeriodToTimeRange": true,
+                "singleValueFullPrecision": false,
+                "liveData": false,
+                "title": "sonnet 3.5 cost ($)"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 7,
+            "y": 4,
+            "width": 3,
+            "height": 3,
+            "properties": {
+                "metrics": [
+                    [ { "expression": "((in_s45/1e6)*3) + ((out_s45/1e6)*15)", "label": "sonnet 4.5 cost ($)", "id": "e1", "period": 60, "stat": "Sum", "region": "ap-northeast-2", "color": "#ff7f0e" } ],
+                    [ "AWS/Bedrock", "OutputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "out_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "out_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "out_s45", "region": "ap-northeast-2", "visible": false } ],
+                    [ ".", "InputTokenCount", ".", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "id": "in_titan", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "in_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "in_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "in_s45", "region": "ap-northeast-2", "visible": false } ]
+                ],
+                "sparkline": false,
+                "view": "singleValue",
+                "region": "ap-northeast-2",
+                "stat": "Sum",
+                "period": 60,
+                "stacked": true,
+                "setPeriodToTimeRange": true,
+                "singleValueFullPrecision": false,
+                "liveData": false,
+                "title": "sonnet 4.5 cost ($)"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 7,
+            "y": 7,
+            "width": 3,
+            "height": 3,
+            "properties": {
+                "metrics": [
+                    [ { "expression": "((in_o45/1e6)*5) + ((out_o45/1e6)*25)", "label": "opus 4.5 cost ($)", "id": "e1", "period": 60, "stat": "Sum", "region": "ap-northeast-2", "color": "#ff7f0e" } ],
+                    [ "AWS/Bedrock", "OutputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "out_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "out_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "out_s45", "region": "ap-northeast-2", "visible": false } ],
+                    [ ".", "InputTokenCount", ".", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "id": "in_titan", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "in_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "in_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "in_s45", "region": "ap-northeast-2", "visible": false } ]
+                ],
+                "sparkline": false,
+                "view": "singleValue",
+                "region": "ap-northeast-2",
+                "stat": "Sum",
+                "period": 60,
+                "stacked": true,
+                "setPeriodToTimeRange": true,
+                "singleValueFullPrecision": false,
+                "liveData": false,
+                "title": "opus 4.5 cost ($)"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 7,
+            "y": 13,
+            "width": 3,
+            "height": 3,
+            "properties": {
+                "metrics": [
+                    [ { "expression": "((in_o45/1e6)*5) + ((out_o45/1e6)*25) + ((in_s45/1e6)*3) + ((out_s45/1e6)*15) + ((in_s35/1e6)*3) + ((out_s35/1e6)*15)", "label": "Overall cost ($)", "id": "e1", "period": 60, "stat": "Sum", "region": "ap-northeast-2", "color": "#ff7f0e" } ],
+                    [ "AWS/Bedrock", "OutputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "out_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "out_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "out_s45", "region": "ap-northeast-2", "visible": false } ],
+                    [ ".", "InputTokenCount", ".", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "id": "in_titan", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "in_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "in_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "in_s45", "region": "ap-northeast-2", "visible": false } ]
+                ],
+                "sparkline": false,
+                "view": "singleValue",
+                "region": "ap-northeast-2",
+                "stat": "Sum",
+                "period": 60,
+                "stacked": true,
+                "setPeriodToTimeRange": true,
+                "singleValueFullPrecision": false,
+                "liveData": false,
+                "title": "#### Overall estimated cost ($)"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 11,
+            "y": 11,
+            "width": 6,
+            "height": 11,
+            "properties": {
+                "metrics": [
+                    [ "AWS/Bedrock", "EstimatedTPMQuotaUsage", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "region": "ap-northeast-2", "label": "titan" } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "region": "ap-northeast-2", "label": "sonnet 3.5" } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "region": "ap-northeast-2", "label": "opus 4.5" } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "region": "ap-northeast-2", "label": "sonnet 4.5" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-northeast-2",
+                "stat": "Maximum",
+                "period": 60,
+                "title": "## EstimatedTPMQuotaUsage (Max)"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 17,
+            "y": 1,
+            "width": 6,
+            "height": 10,
+            "properties": {
+                "metrics": [
+                    [ "AWS/Bedrock", "Invocations", { "region": "ap-northeast-2" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-northeast-2",
+                "title": "## Overall Invocations (Sum)",
+                "stat": "Sum",
+                "period": 60
+            }
+        },
+        {
+            "type": "text",
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 1,
+            "properties": {
+                "markdown": "# Cost Analysis\n"
+            }
+        },
+        {
+            "type": "text",
+            "x": 11,
+            "y": 0,
+            "width": 10,
+            "height": 1,
+            "properties": {
+                "markdown": "# Service Health\n"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 15,
+            "width": 7,
+            "height": 7,
+            "properties": {
+                "metrics": [
+                    [ "AWS/Bedrock", "OutputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "region": "ap-northeast-2", "label": "sonnet 3.5" } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "region": "ap-northeast-2", "label": "opus 4.5" } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "region": "ap-northeast-2", "label": "sonnet 4.5" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": true,
+                "region": "ap-northeast-2",
+                "period": 60,
+                "title": "## OutputTokenCount by each Models (Sum)",
+                "stat": "Sum"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 7,
+            "y": 10,
+            "width": 3,
+            "height": 3,
+            "properties": {
+                "metrics": [
+                    [ { "expression": "((in_titan / 1e6) * 0.02)", "label": "titan cost ($)", "id": "e1", "period": 60, "stat": "Sum", "region": "ap-northeast-2", "color": "#ff7f0e" } ],
+                    [ "AWS/Bedrock", "OutputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "out_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "out_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "out_s45", "region": "ap-northeast-2", "visible": false } ],
+                    [ ".", "InputTokenCount", ".", "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0", { "id": "in_titan", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "in_s35", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "in_o45", "region": "ap-northeast-2", "visible": false } ],
+                    [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "in_s45", "region": "ap-northeast-2", "visible": false } ]
+                ],
+                "sparkline": false,
+                "view": "singleValue",
+                "region": "ap-northeast-2",
+                "stat": "Sum",
+                "period": 60,
+                "stacked": true,
+                "setPeriodToTimeRange": true,
+                "singleValueFullPrecision": false,
+                "liveData": false,
+                "title": "titan cost ($)"
+            }
+        }
+    ]
+}

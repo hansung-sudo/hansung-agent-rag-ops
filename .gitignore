@@ -1,0 +1,7 @@
+.ansible/
+.stfolder/
+.legacy/
+.vault_pass
+.cache/
+.DS_Store
+.inventory/
