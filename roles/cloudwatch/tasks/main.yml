@@ -21,12 +21,6 @@
     state: started
     enabled: yes
 
-- name: AWS CLI 설치
-  apt:
-    name: awscli
-    state: present
-    update_cache: yes
-
 - name: CloudWatch llm-observability 대시보드 JSON 배포
   template:
     src: amazon-cloudwatch-llm-observability.j2
@@ -38,6 +32,6 @@
     aws cloudwatch put-dashboard
     --dashboard-name {{ cw_dashboard_name }}
     --dashboard-body file:///tmp/amazon-cloudwatch-llm-observability.json
-    --region {{ cw_dashboard_region }}
+    --region {{ aws_region }}
   register: cw_put_dashboard
   changed_when: false

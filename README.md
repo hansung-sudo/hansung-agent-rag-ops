@@ -12,8 +12,11 @@ hansung-agent-rag-ops/
  │   ├── production.ini
  │   └── staging.ini
  ├── group_vars/
- │   └── all.yml
+ │   ├── all.yml
+ │   └── secrets.yml
  ├── roles/
+ │   ├── aws_config/
+ │   │   └── tasks/main.yml
  │   ├── cloudwatch/
  │   │   ├── tasks/main.yml
  │   │   └── templates/
@@ -37,9 +40,11 @@ hansung-agent-rag-ops/
 - `inventory/*.ini`: 대상 서버 IP/접속 정보
 - `group_vars/all.yml`: 공통 변수
   - `cw_agent_config_path`: CloudWatch Agent 설정 파일 경로
-  - `cw_dashboard_name`, `cw_dashboard_region`: Dashboard 생성/갱신에 사용
+  - `cw_dashboard_name`, `aws_region`: Dashboard 생성/갱신에 사용
+- `group_vars/secrets.yml`: AWS 접근 키/Bedrock/S3 등 민감 변수 (Ansible-Vault 사용)
 
-### 실행 방법 (현재 비활성화 IAM 접근불가)
+### 실행 방법
+
 
 스테이징 기준:
 
@@ -61,7 +66,10 @@ ansible-playbook -i inventory/production.ini site.yml
 - Agent 설정 JSON 배포
 - CloudWatch Dashboard JSON 배포 및 `put-dashboard`로 대시보드 생성/갱신
 
-### Docker / Nginx (추후 예정)
+### AWS 설정 역할(role)
 
-`roles/docker`, `roles/nginx`는 향후 서비스 배포/프록시 구성에 활용 예정이며 현재는 기본 골격만 포함됩니다.
+`roles/aws_config`는 다음을 수행합니다.
 
+- AWS CLI v2 설치 (Ubuntu 24.04 호환)
+- `/root/.aws/credentials`, `/root/.aws/config` 배포
+- AWS CLI 버전 확인

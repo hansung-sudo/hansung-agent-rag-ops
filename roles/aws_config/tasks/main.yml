@@ -1,9 +1,35 @@
 ---
-- name: AWS CLI 설치
+- name: AWS CLI 설치 의존 패키지 설치
   apt:
-    name: awscli
+    name:
+      - unzip
+      - curl
     state: present
     update_cache: yes
+
+- name: AWS CLI 설치 여부 확인
+  shell: command -v aws
+  register: aws_cli_exists
+  changed_when: false
+  failed_when: false
+
+- name: AWS CLI v2 설치 파일 다운로드
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp/awscliv2.zip
+    mode: "0644"
+  when: aws_cli_exists.rc != 0
+
+- name: AWS CLI v2 압축 해제
+  unarchive:
+    src: /tmp/awscliv2.zip
+    dest: /tmp
+    remote_src: true
+  when: aws_cli_exists.rc != 0
+
+- name: AWS CLI v2 설치
+  command: /tmp/aws/install --update
+  when: aws_cli_exists.rc != 0
 
 - name: AWS 설정 디렉토리 생성
   file:
@@ -30,3 +56,8 @@
       [default]
       region={{ aws_region }}
       output={{ aws_output_format }}
+
+- name: AWS CLI 버전 확인
+  command: aws --version
+  register: aws_cli_version
+  changed_when: false
