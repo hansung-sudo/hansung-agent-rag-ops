@@ -17,13 +17,16 @@ hansung-agent-rag-ops/
  ├── roles/
  │   ├── aws_config/
  │   │   └── tasks/main.yml
- │   ├── cloudwatch/
- │   │   ├── tasks/main.yml
- │   │   └── templates/
- │   │       ├── amazon-cloudwatch-agent.json.j2
- │   │       └── amazon-cloudwatch-llm-observability.j2
- │   ├── docker/        # 추후 활용 예정
- │   └── nginx/         # 추후 활용 예정
+ │   ├── common/
+ │   │   └── tasks/main.yml
+ │   ├── docker_setup/
+ │   │   └── tasks/main.yml
+ │   └── cloudwatch/
+ │       ├── handlers/main.yml
+ │       ├── tasks/main.yml
+ │       └── templates/
+ │           ├── amazon-cloudwatch-agent.json.j2
+ │           └── amazon-cloudwatch-llm-observability.j2
  └── site.yml
 ```
 
@@ -41,6 +44,7 @@ hansung-agent-rag-ops/
 - `group_vars/all.yml`: 공통 변수
   - `cw_agent_config_path`: CloudWatch Agent 설정 파일 경로
   - `cw_dashboard_name`, `aws_region`: Dashboard 생성/갱신에 사용
+  - `vm_swappiness`, `zram_percent`, `zram_priority`: 메모리 압박 완화(common role) 설정
 - `group_vars/secrets.yml`: AWS 접근 키/Bedrock/S3 등 민감 변수 (Ansible-Vault 사용)
 
 ### 실행 방법
@@ -58,18 +62,47 @@ ansible-playbook -i inventory/staging.ini site.yml
 ansible-playbook -i inventory/production.ini site.yml
 ```
 
-### CloudWatch 역할(role)
+태그별 실행 예시:
 
-`roles/cloudwatch`는 다음을 수행합니다.
+```bash
+ansible-playbook -i inventory/staging.ini site.yml --tags common
+ansible-playbook -i inventory/staging.ini site.yml --tags docker
+ansible-playbook -i inventory/staging.ini site.yml --tags aws
+ansible-playbook -i inventory/staging.ini site.yml --tags cloudwatch
+```
 
-- CloudWatch Agent 설치
-- Agent 설정 JSON 배포
-- CloudWatch Dashboard JSON 배포 및 `put-dashboard`로 대시보드 생성/갱신
+### 역할(Role) 설명
 
-### AWS 설정 역할(role)
+#### common (`--tags common`)
 
-`roles/aws_config`는 다음을 수행합니다.
+메모리 압박 상황에서 서비스가 OOM으로 죽는 위험을 줄이기 위한 역할입니다.
+
+- `zram-tools` 설치
+- `/etc/default/zramswap` 설정 배포 (`zstd`, 비율/우선순위 변수화)
+- `vm.swappiness` 적용
+- `zramswap.service` 활성화 및 설정 변경 시 재시작
+
+#### docker_setup (`--tags docker`)
+
+Docker 실행 기반을 안정적으로 준비하는 역할입니다.
+
+- Docker 공식 apt key/repo 설정
+- `docker-ce`, `docker-ce-cli`, `containerd.io`, `docker-compose-plugin` 설치
+- `/etc/docker/daemon.json` 로그 로테이션 설정(디스크 과사용 방지)
+- 접속 사용자를 `docker` 그룹에 추가
+
+#### aws_config (`--tags aws`)
+
+AWS 연동 기본 구성을 담당합니다.
 
 - AWS CLI v2 설치 (Ubuntu 24.04 호환)
-- `/root/.aws/credentials`, `/root/.aws/config` 배포
-- AWS CLI 버전 확인
+- `/root/.aws/config` 및 정적 자격증명(설정 시) 배포
+- 정적 자격증명이 없으면 인스턴스 IAM Role 기반 사용
+
+#### cloudwatch (`--tags cloudwatch`)
+
+모니터링/관측 구성을 자동화합니다.
+
+- CloudWatch Agent 설치 및 설정 배포
+- Agent 재시작 핸들러 실행
+- CloudWatch Dashboard 템플릿 배포 및 `put-dashboard` 적용
