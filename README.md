@@ -22,8 +22,7 @@ hansung-agent-rag-ops/
  │   │   └── templates/
  │   │       ├── amazon-cloudwatch-agent.json.j2
  │   │       └── amazon-cloudwatch-llm-observability.j2
- │   ├── docker/        # 추후 활용 예정
- │   └── nginx/         # 추후 활용 예정
+ │   └── 
  └── site.yml
 ```
 
