@@ -3,11 +3,13 @@
   get_url:
     url: https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
     dest: /tmp/amazon-cloudwatch-agent.deb
+  when: not ansible_check_mode
 
 - name: CloudWatch Agent 설치
   apt:
     deb: /tmp/amazon-cloudwatch-agent.deb
     state: present
+  when: not ansible_check_mode
 
 - name: CloudWatch Agent 설정 파일 배포
   template:
@@ -20,12 +22,20 @@
     name: amazon-cloudwatch-agent
     state: started
     enabled: yes
+  when: not ansible_check_mode
 
 - name: CloudWatch llm-observability 대시보드 JSON 배포
   template:
     src: amazon-cloudwatch-llm-observability.j2
     dest: /tmp/amazon-cloudwatch-llm-observability.json
     mode: "0644"
+
+- name: AWS 인증 상태 확인
+  command: aws sts get-caller-identity --region {{ aws_region }}
+  register: aws_identity_check
+  changed_when: false
+  failed_when: false
+  when: not ansible_check_mode
 
 - name: CloudWatch llm-observability 대시보드
   command: >
@@ -35,3 +45,6 @@
     --region {{ aws_region }}
   register: cw_put_dashboard
   changed_when: false
+  when:
+    - not ansible_check_mode
+    - aws_identity_check.rc == 0
