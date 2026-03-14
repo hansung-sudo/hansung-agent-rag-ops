@@ -13,3 +13,6 @@ cw_agent_config_path: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-ag
 cw_dashboard_name: "amazon-cloudwatch-llm-observability"
 
 aws_region: "ap-northeast-2"
+vm_swappiness: 80
+zram_percent: 50
+zram_priority: 100

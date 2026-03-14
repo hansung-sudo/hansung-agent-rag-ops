@@ -7,6 +7,10 @@
 
   roles:
 
+    - role: common
+      tags:
+        - common
+
     - role: aws_config # aws agent 구성
       tags:
         - aws
@@ -18,5 +22,4 @@
     - role: cloudwatch # cloudwatch_agent 통한 자동 모니터링 환경 구축
       tags:
         - cloudwatch
-
 
