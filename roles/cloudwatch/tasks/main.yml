@@ -27,13 +27,13 @@
     state: present
     update_cache: yes
 
-- name: CloudWatch 대시보드 JSON 배포
+- name: CloudWatch llm-observability 대시보드 JSON 배포
   template:
     src: amazon-cloudwatch-llm-observability.j2
     dest: /tmp/amazon-cloudwatch-llm-observability.json
     mode: "0644"
 
-- name: CloudWatch 대시보드 반영
+- name: CloudWatch llm-observability 대시보드
   command: >
     aws cloudwatch put-dashboard
     --dashboard-name {{ cw_dashboard_name }}
