@@ -37,6 +37,15 @@
     state: directory
     mode: "0700"
 
+- name: 정적 AWS 자격증명 사용 여부 계산
+  set_fact:
+    use_static_aws_credentials: >-
+      {{
+        (aws_access_key_id | default('', true) | string | trim | length > 0)
+        and
+        (aws_secret_access_key | default('', true) | string | trim | length > 0)
+      }}
+
 - name: AWS credentials 파일 배포
   copy:
     dest: /root/.aws/credentials
@@ -45,8 +54,17 @@
       [default]
       aws_access_key_id={{ aws_access_key_id }}
       aws_secret_access_key={{ aws_secret_access_key }}
+      {% if aws_session_token is defined and (aws_session_token | default('', true) | string | trim | length > 0) %}
       aws_session_token={{ aws_session_token }}
+      {% endif %}
   no_log: true
+  when: use_static_aws_credentials
+
+- name: 비어있는 정적 자격증명 파일 제거
+  file:
+    path: /root/.aws/credentials
+    state: absent
+  when: not use_static_aws_credentials
 
 - name: AWS config 파일 배포
   copy:
