@@ -31,20 +31,33 @@
     mode: "0644"
 
 - name: AWS 인증 상태 확인
-  command: aws sts get-caller-identity --region {{ aws_region }}
+  command: aws sts get-caller-identity --region {{ cw_dashboard_region }}
   register: aws_identity_check
   changed_when: false
   failed_when: false
   when: not ansible_check_mode
+
+- name: CloudWatch 대시보드 반영 전 AWS 인증 실패 처리
+  fail:
+    msg: "{{ aws_identity_check.stderr | default('AWS 인증 실패') }}"
+  when:
+    - not ansible_check_mode
+    - aws_identity_check.rc != 0
 
 - name: CloudWatch llm-observability 대시보드
   command: >
     aws cloudwatch put-dashboard
     --dashboard-name {{ cw_dashboard_name }}
     --dashboard-body file:///tmp/amazon-cloudwatch-llm-observability.json
-    --region {{ aws_region }}
+    --region {{ cw_dashboard_region }}
   register: cw_put_dashboard
   changed_when: false
-  when:
-    - not ansible_check_mode
-    - aws_identity_check.rc == 0
+  when: not ansible_check_mode
+
+- name: CloudWatch llm-observability 대시보드 조회 검증
+  command: >
+    aws cloudwatch get-dashboard
+    --dashboard-name {{ cw_dashboard_name }}
+    --region {{ cw_dashboard_region }}
+  changed_when: false
+  when: not ansible_check_mode
