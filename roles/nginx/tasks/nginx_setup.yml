@@ -1,10 +1,4 @@
 ---
-- name: Nginx 설치
-  apt:
-    name: nginx
-    state: present
-    update_cache: yes
-
 - name: 기본 Nginx 설정 삭제
   file:
     path: /etc/nginx/sites-enabled/default

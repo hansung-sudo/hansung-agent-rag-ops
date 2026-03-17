@@ -1,4 +1,15 @@
 ---
-- name: Nginx 설치 및 구성
-  import_tasks: nginx_setup.yml
+- name: Nginx 및 SSL 인증서 구성
+  block:
+    - name: Nginx 설치 (기본 패키지)
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: SSL 인증서 발급 자동화
+      import_tasks: certbot_setup.yml
+
+    - name: Nginx 세부 설정 및 활성화
+      import_tasks: nginx_setup.yml
 

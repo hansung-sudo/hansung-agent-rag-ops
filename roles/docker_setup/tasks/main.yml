@@ -133,3 +133,6 @@
     name: "{{ ansible_user }}"
     groups: docker
     append: yes
+
+- name: newgrp docker to apply changes
+  command: newgrp docker
