@@ -14,7 +14,7 @@ cw_dashboard_name: "amazon-cloudwatch-llm-observability"
 cw_dashboard_region: "ap-northeast-2"
 
 # Nginx 설정 관련
-certbot_email: "yeoun@yeoun.org" # 인증서 갱신 알림용 이메일
+certbot_email: "yeounhyeok@gmail.com" # 인증서 갱신 알림용 이메일
 nginx_apps:
   - name: "rag-be"
     internal_port: 8080
@@ -25,6 +25,8 @@ nginx_apps:
   #   server_name: "example.com"
 
 aws_region: "ap-northeast-2"
+aws_output_format: "json"
+
 vm_swappiness: 80
 zram_percent: 50
 zram_priority: 100

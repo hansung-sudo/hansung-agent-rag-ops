@@ -2,8 +2,6 @@
 - name: Hansung RAG Agent 인프라 환경 구축 자동화
   hosts: all
   become: yes
-  vars_files:
-    - group_vars/secrets.yml
 
   roles:
 
