@@ -1,12 +1,13 @@
 - name: Nginx 및 Certbot 정리
-  hosts: dev_node # 주의
+  hosts: staging # 주의
   become: yes
   tasks:
-    - name: Nginx 및 Certbot 완전 삭제
+    - name: Nginx 및 Certbot 완전 삭제 (관련 모든 패키지 포함)
       apt:
-        name: [nginx, certbot, python3-certbot-nginx]
+        name: [nginx, nginx-common, nginx-full, certbot, python3-certbot-nginx]
         state: absent
         purge: yes
+        autoremove: yes
 
     - name: 관련 디렉토리 제거
       file:
