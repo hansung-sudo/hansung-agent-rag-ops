@@ -3,5 +3,6 @@
 .legacy/
 .vault_pass
 .cache/
+.vscode/
 .DS_Store
 
