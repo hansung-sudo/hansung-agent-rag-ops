@@ -1,0 +1,26 @@
+- name: Certbot 및 Nginx 플러그인 설치
+  apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+
+- name: SSL 인증서 발급 (Nginx 플러그인 방식)
+  command: >
+    certbot certonly --nginx
+    --non-interactive
+    --agree-tos
+    --email {{ certbot_email }}
+    -d {{ item.server_name }}
+  loop: "{{ nginx_apps }}"
+  register: cert_result
+  args:
+    creates: "/etc/letsencrypt/live/{{ item.server_name }}/fullchain.pem"
+
+- name: Certbot 자동 갱신 cron 등록
+  cron:
+    name: certbot_renew_nginx
+    user: root
+    minute: "17"
+    hour: "3"
+    job: "certbot renew --quiet --deploy-hook 'systemctl reload nginx'"

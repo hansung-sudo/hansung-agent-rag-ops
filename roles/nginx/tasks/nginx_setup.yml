@@ -1,0 +1,31 @@
+---
+- name: 기본 Nginx 설정 삭제
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Nginx 설정 파일 배포 (모든 앱 loop)
+  template:
+    src: nginx_rag.conf.j2
+    dest: "/etc/nginx/sites-available/nginx_apps.conf"
+    mode: "0644"
+  notify: reload nginx
+
+- name: Nginx 설정 심볼릭 링크 생성
+  file:
+    src: "/etc/nginx/sites-available/nginx_apps.conf"
+    dest: "/etc/nginx/sites-enabled/nginx_apps.conf"
+    state: link
+  notify: reload nginx
+
+- name: Nginx 설정 문법 검사
+  command: nginx -t
+  register: nginx_test
+  changed_when: false
+  failed_when: nginx_test.rc != 0
+
+- name: Nginx 서비스 시작 및 활성화
+  service:
+    name: nginx
+    state: started
+    enabled: yes
