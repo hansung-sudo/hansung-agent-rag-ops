@@ -16,3 +16,11 @@
   register: cert_result
   args:
     creates: "/etc/letsencrypt/live/{{ item.server_name }}/fullchain.pem"
+
+- name: Certbot 자동 갱신 cron 등록
+  cron:
+    name: certbot_renew_nginx
+    user: root
+    minute: "17"
+    hour: "3"
+    job: "certbot renew --quiet --deploy-hook 'systemctl reload nginx'"

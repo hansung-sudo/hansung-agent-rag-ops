@@ -1,5 +1,5 @@
 - name: Nginx 및 Certbot 정리
-  hosts: dev_node
+  hosts: dev_node # 주의
   become: yes
   tasks:
     - name: Nginx 및 Certbot 완전 삭제
