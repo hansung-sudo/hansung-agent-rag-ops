@@ -11,6 +11,17 @@ cw_agent_config_path: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-ag
 
 # CloudWatch Dashboard 설정 관련
 cw_dashboard_name: "amazon-cloudwatch-llm-observability"
+cw_dashboard_region: "ap-northeast-2"
+
+# Nginx 설정 관련
+nginx_apps:
+  - name: "rag-be"
+    internal_port: 8080
+    server_name: "rag-be.yeoun.org"
+  # 추가 앱을 원할 경우 여기에 리스트 추가
+  # - name: "another-app"
+  #   internal_port: 8001
+  #   server_name: "example.com"
 
 aws_region: "ap-northeast-2"
 vm_swappiness: 80

@@ -7,9 +7,9 @@
 
   roles:
 
-    - role: common
+    - role: ram_optimization # RAM 최적화 구성
       tags:
-        - common
+        - ram
 
     - role: aws_config # aws agent 구성
       tags:
@@ -18,6 +18,10 @@
     - role: docker_setup # docker engine & compose plugin 설치
       tags:
         - docker
+
+    - role: nginx
+      tags:
+        - nginx
 
     - role: cloudwatch # cloudwatch_agent 통한 자동 모니터링 환경 구축
       tags:

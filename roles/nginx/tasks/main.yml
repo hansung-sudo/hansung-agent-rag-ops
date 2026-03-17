@@ -1,0 +1,4 @@
+---
+- name: Nginx 설치 및 구성
+  import_tasks: nginx_setup.yml
+
