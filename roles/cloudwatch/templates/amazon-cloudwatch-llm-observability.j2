@@ -156,7 +156,7 @@
             "height": 3,
             "properties": {
                 "metrics": [
-                    [ { "expression": "((in_o45/1e6)*5) + ((out_o45/1e6)*25) + ((in_s45/1e6)*3) + ((out_s45/1e6)*15) + ((in_s35/1e6)*3) + ((out_s35/1e6)*15)", "label": "Overall cost ($)", "id": "e1", "period": 60, "stat": "Sum", "region": "ap-northeast-2", "color": "#ff7f0e" } ],
+                    [ { "expression": "((in_titan / 1e6) * 0.02) + ((in_o45/1e6)*5) + ((out_o45/1e6)*25) + ((in_s45/1e6)*3) + ((out_s45/1e6)*15) + ((in_s35/1e6)*3) + ((out_s35/1e6)*15)", "label": "Overall cost ($)", "id": "e1", "period": 60, "stat": "Sum", "region": "ap-northeast-2", "color": "#ff7f0e" } ],
                     [ "AWS/Bedrock", "OutputTokenCount", "ModelId", "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0", { "id": "out_s35", "region": "ap-northeast-2", "visible": false } ],
                     [ "...", "global.anthropic.claude-opus-4-5-20251101-v1:0", { "id": "out_o45", "region": "ap-northeast-2", "visible": false } ],
                     [ "...", "global.anthropic.claude-sonnet-4-5-20250929-v1:0", { "id": "out_s45", "region": "ap-northeast-2", "visible": false } ],
