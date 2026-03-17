@@ -28,9 +28,6 @@ hansung-agent-rag-ops/
 
 - 로컬/WSL 환경에서 `ansible-playbook` 실행 가능해야 합니다.
 - 대상 EC2는 SSH 접속 가능해야 합니다.
-- CloudWatch Dashboard 반영 시 ec2 인스턴스 프로파일(IAM Role)에 `cloudwatch:PutDashboard` 권한이 필요합니다.
-- CloudWatch Agent 로그/메트릭 수집을 위해 `CloudWatchAgentServerPolicy` 권한을 권장합니다.
-- HTTPS 인증서 발급을 위해 도메인이 대상 서버로 라우팅되어야 하며 ec2 보안정책에서 80/443 포트 인바운드가 열려 있어야 합니다.
 
 ### 주요 설정 파일
 
