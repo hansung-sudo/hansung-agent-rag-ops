@@ -2,7 +2,9 @@
 - name: Hansung RAG Agent 인프라 환경 구축 자동화
   hosts: all
   become: yes
-
+  vars_files:
+    - group_vars/secrets.yml
+  
   roles:
 
     - role: ram_optimization # RAM 최적화 구성
@@ -24,4 +26,3 @@
     - role: cloudwatch # cloudwatch_agent 통한 자동 모니터링 환경 구축
       tags:
         - cloudwatch
-
