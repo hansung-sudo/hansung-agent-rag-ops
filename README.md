@@ -15,6 +15,8 @@ hansung-agent-rag-ops/
  ├── group_vars/
  │   ├── all.yml
  │   └── secrets.yml
+ ├── playbooks/
+ │   └── nginx_clean.yml
  ├── roles/
  │   ├── ram_optimization/
  │   ├── aws_config/
@@ -28,6 +30,7 @@ hansung-agent-rag-ops/
 
 - 로컬/WSL 환경에서 `ansible-playbook` 실행 가능해야 합니다.
 - 대상 EC2는 SSH 접속 가능해야 합니다.
+- `secrets.yml`은 민감 정보를 포함하므로 `ansible-vault`로 암호화하여 관리하는 것을 권장합니다.
 
 ### 주요 설정 파일
 
@@ -41,12 +44,16 @@ hansung-agent-rag-ops/
   - Nginx/SSL 변수
     - `certbot_email`
     - `nginx_apps` (`name`, `internal_port`, `server_name`)
+  - CloudWatch 변수
+    - `cw_agent_config_path`, `cw_dashboard_name`, `cw_dashboard_region`
+  - 공통 경로 변수
+    - `log_path`, `app_name`
 - `group_vars/secrets.yml`
   - 민감 정보 저장(필요 시 Ansible Vault 사용)
 
 ### 실행 방법
 
-스테이징:
+기본 실행 (스테이징):
 
 ```bash
 ansible-playbook -i inventory/staging.ini site.yml
@@ -56,22 +63,19 @@ ansible-playbook -i inventory/staging.ini site.yml
 
 ```bash
 ansible-playbook -i inventory/production.ini site.yml
-```
 
-개발:
-
-```bash
+# 개발 환경
 ansible-playbook -i inventory/dev.ini site.yml
 ```
 
 태그별 실행 예시:
 
 ```bash
-ansible-playbook -i inventory/staging.ini site.yml --tags ram
-ansible-playbook -i inventory/staging.ini site.yml --tags aws
-ansible-playbook -i inventory/staging.ini site.yml --tags docker
-ansible-playbook -i inventory/staging.ini site.yml --tags nginx
-ansible-playbook -i inventory/staging.ini site.yml --tags cloudwatch
+ansible-playbook site.yml --tags ram
+ansible-playbook site.yml --tags aws
+ansible-playbook site.yml --tags docker
+ansible-playbook site.yml --tags nginx
+ansible-playbook site.yml --tags cloudwatch
 ```
 
 ### 역할(Role) 설명
@@ -101,7 +105,7 @@ Docker 실행 기반을 준비합니다.
 - Docker apt key/repo 구성
 - `docker-ce`, `docker-ce-cli`, `containerd.io`, `docker-compose-plugin` 설치
 - `/etc/docker/daemon.json` 로그 로테이션 설정
-- 접속 사용자를 `docker` 그룹에 추가
+- 접속 사용자를 `docker` 그룹에 추가 및 `newgrp docker` 적용
 
 #### nginx (`--tags nginx`)
 
@@ -110,6 +114,8 @@ Nginx 리버스 프록시 및 HTTPS 구성을 자동화합니다.
 - Nginx 설치
 - Certbot(`python3-certbot-nginx`) 설치
 - `nginx_apps` 루프 기반 인증서 발급 (`certbot certonly --nginx`)
+- **SSL 자동 갱신 설정**: 매일 03:17에 `certbot renew`를 실행하도록 크론탭(Cron) 등록
+  - 갱신 성공 시 `systemctl reload nginx`를 통해 인증서 즉시 반영
 - `/etc/nginx/sites-available/nginx_apps.conf` 템플릿 배포
 - 기본 사이트 비활성화, 심볼릭 링크 생성, `nginx -t` 문법 검사
 - 설정 변경 시 `reload nginx` 핸들러 동작
