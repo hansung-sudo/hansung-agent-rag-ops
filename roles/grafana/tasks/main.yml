@@ -1,0 +1,11 @@
+- name: CloudWatch 데이터 소스 자동 등록
+  community.grafana.grafana_datasource:
+    name: "CloudWatch-Seoul"
+    ds_type: "cloudwatch"
+    url: "https://grafana.yeoun.org" # 그라파나 주소
+    grafana_api_key: "{{ grafana_api_key }}"
+    aws_auth_type: "keys"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
+    aws_default_region: "ap-northeast-2"
+    state: present

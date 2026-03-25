@@ -1,0 +1,1997 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 10,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "# Cost Analysis",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.0",
+      "title": "",
+      "type": "text"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 12,
+        "x": 11,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "# Service Health",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.0",
+      "title": "",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 0,
+        "y": 2
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "InputTokenCount",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Maximum"
+        },
+        {
+          "alias": "OutputTokenCount",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Maximum"
+        }
+      ],
+      "title": "Overall InputTokenCount, OutputTokenCount (Max)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 7,
+        "y": 2
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "out_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "E",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "F",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "G",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "expression": "(($E/1000000)*3) + (($A/1000000)*15)",
+          "label": "sonnet 3.5 cost ($)",
+          "queryMode": "Metrics",
+          "refId": "H"
+        }
+      ],
+      "title": "sonnet 3.5 cost ($)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 11,
+        "y": 2
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InvocationLatency",
+          "namespace": "AWS/Bedrock",
+          "period": "300",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "p99"
+        },
+        {
+          "alias": "sonnet 3.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InvocationLatency",
+          "namespace": "AWS/Bedrock",
+          "period": "300",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "p99"
+        },
+        {
+          "alias": "opus 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InvocationLatency",
+          "namespace": "AWS/Bedrock",
+          "period": "300",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "p99"
+        },
+        {
+          "alias": "sonnet 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InvocationLatency",
+          "namespace": "AWS/Bedrock",
+          "period": "300",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "p99"
+        }
+      ],
+      "title": "InvocationLatency by each Model (P99)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 17,
+        "y": 2
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "Invocations",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "Invocations",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        }
+      ],
+      "title": "Overall Invocations (Sum)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 7,
+        "y": 5
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "out_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "E",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "F",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "G",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "expression": "(($G/1000000)*3) + (($C/1000000)*15)",
+          "label": "sonnet 4.5 cost ($)",
+          "queryMode": "Metrics",
+          "refId": "H"
+        }
+      ],
+      "title": "sonnet 4.5 cost ($)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 7,
+        "y": 8
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "out_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "E",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "F",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "G",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "expression": "(($F/1000000)*5) + (($B/1000000)*25)",
+          "label": "opus 4.5 cost ($)",
+          "queryMode": "Metrics",
+          "refId": "H"
+        }
+      ],
+      "title": "opus 4.5 cost ($)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 0,
+        "y": 9
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "sonnet 3.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "opus 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "sonnet 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        }
+      ],
+      "title": "InputTokenCount by each Model (Sum)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 7,
+        "y": 11
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "out_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "E",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "F",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "G",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "expression": "(($D/1000000)*0.02)",
+          "label": "titan cost ($)",
+          "queryMode": "Metrics",
+          "refId": "H"
+        }
+      ],
+      "title": "titan cost ($)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 6,
+        "x": 11,
+        "y": 12
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "EstimatedTPMQuotaUsage",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Maximum"
+        },
+        {
+          "alias": "sonnet 3.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "EstimatedTPMQuotaUsage",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Maximum"
+        },
+        {
+          "alias": "opus 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "EstimatedTPMQuotaUsage",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Maximum"
+        },
+        {
+          "alias": "sonnet 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "EstimatedTPMQuotaUsage",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "Maximum"
+        }
+      ],
+      "title": "EstimatedTPMQuotaUsage (Max)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 7,
+        "y": 14
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "out_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "out_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_titan",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.titan-embed-text-v2:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "D",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s35",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "E",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_o45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "F",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "in_s45",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "hide": true,
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "InputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "G",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "expression": "(($D/1000000)*0.02) + (($F/1000000)*5) + (($B/1000000)*25) + (($G/1000000)*3) + (($C/1000000)*15) + (($E/1000000)*3) + (($A/1000000)*15)",
+          "label": "Overall cost ($)",
+          "queryMode": "Metrics",
+          "refId": "H"
+        }
+      ],
+      "title": "Overall estimated cost ($)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "${DS_CLOUDWATCH}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "alias": "sonnet 3.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "arn:aws:bedrock:ap-northeast-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "A",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "opus 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "B",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        },
+        {
+          "alias": "sonnet 4.5",
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${DS_CLOUDWATCH}"
+          },
+          "dimensions": {
+            "ModelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+          },
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "OutputTokenCount",
+          "namespace": "AWS/Bedrock",
+          "period": "60",
+          "queryMode": "Metrics",
+          "refId": "C",
+          "region": "ap-northeast-2",
+          "statistic": "Sum"
+        }
+      ],
+      "title": "OutputTokenCount by each Model (Sum)",
+      "type": "timeseries"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 42,
+  "tags": [
+    "aws",
+    "bedrock",
+    "cloudwatch",
+    "cost"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Bedrock Cost & Service Health",
+  "uid": "adzsq2n",
+  "version": 2,
+  "weekStart": ""
+}
