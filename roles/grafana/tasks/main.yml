@@ -2,7 +2,7 @@
   community.grafana.grafana_datasource:
     name: "CloudWatch-Seoul"
     ds_type: "cloudwatch"
-    url: "https://grafana.yeoun.org" # 그라파나 주소
+    url: "{{ grafana_endpoint }}"
     grafana_api_key: "{{ grafana_api_key }}"
     aws_auth_type: "keys"
     aws_access_key: "{{ aws_access_key_id }}"

@@ -13,6 +13,10 @@ cw_agent_config_path: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-ag
 cw_dashboard_name: "llm-observability"
 cw_dashboard_region: "ap-northeast-2"
 
+# Grafana 설정 관련
+grafana_endpoint: https://grafana.yeoun.org
+
+
 # Nginx 설정 관련
 certbot_email: "yeounhyeok@gmail.com" # 인증서 갱신 알림용 이메일
 nginx_apps:
