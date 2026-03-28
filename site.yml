@@ -26,3 +26,7 @@
     - role: cloudwatch # cloudwatch_agent 통한 자동 모니터링 환경 구축
       tags:
         - cloudwatch
+
+    - role: grafana
+      tags:
+        - grafana

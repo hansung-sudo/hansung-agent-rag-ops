@@ -1,11 +1,77 @@
-- name: CloudWatch 데이터 소스 자동 등록
+- name: Grafana API 베이스 URL 계산
+  set_fact:
+    grafana_api_base: "{{ grafana_endpoint | regex_replace('/$', '') }}"
+
+- name: 정적 AWS 자격증명 사용 여부 계산
+  set_fact:
+    use_static_aws_credentials: >-
+      {{
+        (aws_access_key_id | default('', true) | string | trim | length > 0)
+        and
+        (aws_secret_access_key | default('', true) | string | trim | length > 0)
+      }}
+
+- name: CloudWatch 데이터소스 등록
   community.grafana.grafana_datasource:
     name: "CloudWatch-Seoul"
     ds_type: "cloudwatch"
+    ds_url: ""
     url: "{{ grafana_endpoint }}"
     grafana_api_key: "{{ grafana_api_key }}"
-    aws_auth_type: "keys"
-    aws_access_key: "{{ aws_access_key_id }}"
-    aws_secret_key: "{{ aws_secret_access_key }}"
+    aws_auth_type: "{{ 'keys' if use_static_aws_credentials else 'default' }}"
+    aws_access_key: "{{ aws_access_key_id | default('') }}"
+    aws_secret_key: "{{ aws_secret_access_key | default('') }}"
     aws_default_region: "ap-northeast-2"
     state: present
+
+- name: Grafana CloudWatch 데이터소스 조회
+  uri:
+    url: "{{ grafana_api_base }}/api/datasources/name/CloudWatch-Seoul"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ grafana_api_key }}"
+      Content-Type: "application/json"
+    return_content: true
+    status_code: 200
+  register: grafana_cloudwatch_datasource
+  changed_when: false
+  no_log: true
+
+- name: Grafana CloudWatch 데이터소스 타입 검증
+  assert:
+    that:
+      - (grafana_cloudwatch_datasource.json.type | default('')) == 'cloudwatch'
+      - (grafana_cloudwatch_datasource.json.uid | default('') | string | length) > 0
+    fail_msg: "Grafana CloudWatch 데이터소스 타입 검증 실패"
+
+- name: Grafana 대시보드 JSON 생성
+  set_fact:
+    grafana_dashboard_payload: >-
+      {{
+        lookup('template', 'grafana-llm-observability.j2')
+        | replace('${DS_CLOUDWATCH}', grafana_cloudwatch_datasource.json.uid)
+        | from_json
+      }}
+
+- name: Grafana llm-observability 대시보드 import
+  uri:
+    url: "{{ grafana_api_base }}/api/dashboards/db"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ grafana_api_key }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      dashboard: "{{ grafana_dashboard_payload }}"
+      overwrite: true
+      message: "Provisioned by Ansible"
+    return_content: true
+    status_code: 200
+  register: grafana_dashboard_import
+  no_log: true
+
+- name: Grafana 대시보드 import 결과 검증
+  assert:
+    that:
+      - grafana_dashboard_import.json.status == 'success'
+    fail_msg: "Grafana 대시보드 import 실패"

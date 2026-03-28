@@ -1,13 +1,14 @@
 ## hansung-agent-rag-ops
 
 Ansible 기반으로 Hansung Agent(RAG) 인프라를 구성/운영하는 플레이북입니다.  
-현재는 RAM 최적화, AWS CLI 설정, Docker 실행환경, Nginx+SSL(HTTPS), CloudWatch 관측 자동화를 포함합니다.
+현재는 RAM 최적화, AWS CLI 설정, Docker 실행환경, Nginx+SSL(HTTPS), CloudWatch 관측, Grafana 대시보드 자동화를 포함합니다.
 
 ### 프로젝트 구성
 
 ```text
 hansung-agent-rag-ops/
  ├── ansible.cfg
+ ├── requirements.yml
  ├── inventory/
  │   ├── dev.ini
  │   ├── staging.ini
@@ -22,13 +23,16 @@ hansung-agent-rag-ops/
  │   ├── aws_config/
  │   ├── docker_setup/
  │   ├── nginx/
- │   └── cloudwatch/
+ │   ├── cloudwatch/
+ │   └── grafana/
  └── site.yml
 ```
 
 ### 사전 준비
 
 - 로컬/WSL 환경에서 `ansible-playbook` 실행 가능해야 합니다.
+- 필요 컬렉션 설치:
+  - `ansible-galaxy collection install -r requirements.yml`
 - 대상 EC2는 SSH 접속 가능해야 합니다.
 - `secrets.yml`은 민감 정보를 포함하므로 `ansible-vault`로 암호화하여 관리하는 것을 권장합니다.
 
@@ -46,6 +50,8 @@ hansung-agent-rag-ops/
     - `nginx_apps` (`name`, `internal_port`, `server_name`)
   - CloudWatch 변수
     - `cw_agent_config_path`, `cw_dashboard_name`, `cw_dashboard_region`
+  - Grafana 변수
+    - `grafana_endpoint`
   - 공통 경로 변수
     - `log_path`, `app_name`
 - `group_vars/secrets.yml`
@@ -76,6 +82,7 @@ ansible-playbook site.yml --tags aws
 ansible-playbook site.yml --tags docker
 ansible-playbook site.yml --tags nginx
 ansible-playbook site.yml --tags cloudwatch
+ansible-playbook site.yml --tags grafana
 ```
 
 ### 역할(Role) 설명
@@ -127,6 +134,16 @@ Nginx 리버스 프록시 및 HTTPS 구성을 자동화합니다.
 - CloudWatch Agent 설치 및 설정 배포
 - Agent 재시작 핸들러 실행
 - Dashboard JSON 템플릿 배포 및 `put-dashboard` 적용
+
+#### grafana (`--tags grafana`)
+
+Grafana 데이터소스/대시보드 구성을 자동화합니다.
+
+- CloudWatch 데이터소스 생성/갱신
+  - 정적 키가 있으면 `keys` 인증
+  - 없으면 인스턴스/IAM Role 기반 `default` 인증
+- Datasource UID를 조회 후 대시보드 JSON에 치환
+- `llm-observability` 대시보드 import 및 결과 검증
 
 ### Nginx 앱 추가 방법
 
