@@ -11,7 +11,22 @@
         (aws_secret_access_key | default('', true) | string | trim | length > 0)
       }}
 
-- name: CloudWatch 데이터소스 등록
+- name: CloudWatch 데이터소스 사전 조회
+  uri:
+    url: "{{ grafana_api_base }}/api/datasources/name/CloudWatch-Seoul"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ grafana_api_key }}"
+      Content-Type: "application/json"
+    return_content: true
+    status_code:
+      - 200
+      - 404
+  register: grafana_cloudwatch_datasource_lookup
+  changed_when: false
+  no_log: true
+
+- name: CloudWatch 데이터소스 등록 (없을 때만)
   community.grafana.grafana_datasource:
     name: "CloudWatch-Seoul"
     ds_type: "cloudwatch"
@@ -23,6 +38,24 @@
     aws_secret_key: "{{ aws_secret_access_key | default('') }}"
     aws_default_region: "ap-northeast-2"
     state: present
+  when: grafana_cloudwatch_datasource_lookup.status == 404
+  register: grafana_cloudwatch_datasource_create
+  failed_when: false
+
+- name: CloudWatch 데이터소스 생성 권한 검증
+  assert:
+    that:
+      - >
+        grafana_cloudwatch_datasource_lookup.status == 200
+        or
+        (
+          grafana_cloudwatch_datasource_create is defined
+          and not (grafana_cloudwatch_datasource_create.failed | default(false))
+        )
+    fail_msg: >-
+      Grafana CloudWatch 데이터소스 생성에 실패했습니다.
+      API 키 권한에 datasources:write(또는 Grafana Editor/Admin 권한)가 있는지 확인해주세요.
+      오류={{ grafana_cloudwatch_datasource_create.msg | default('unknown') }}
 
 - name: Grafana CloudWatch 데이터소스 조회
   uri:
